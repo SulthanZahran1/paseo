@@ -15,6 +15,7 @@ function makeConfig(browserToolsEnabled = false): MutableDaemonConfig {
     providers: {},
     metadataGeneration: { providers: [] },
     autoArchiveAfterMerge: false,
+    autoArchiveIdleDays: null,
     enableTerminalAgentHooks: false,
     appendSystemPrompt: "",
   };

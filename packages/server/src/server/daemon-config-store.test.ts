@@ -8,6 +8,11 @@ import { loadPersistedConfig } from "./persisted-config.js";
 import type { PersistedConfig } from "./persisted-config.js";
 import type { MutableDaemonConfig } from "@getpaseo/protocol/messages";
 
+/** Keeps the fixture builder under oxlint's complexity cap. */
+function idleDaysOrNull(value: number | null | undefined): number | null {
+  return value ?? null;
+}
+
 function reloadableConfig(
   persisted: PersistedConfig,
   options: { relayEnabledFallback?: boolean } = {},
@@ -25,6 +30,7 @@ function reloadableConfig(
     providers: (agents.providers ?? {}) as MutableDaemonConfig["providers"],
     metadataGeneration: { providers: agents.metadataGeneration?.providers ?? [] },
     autoArchiveAfterMerge: daemon.autoArchiveAfterMerge ?? false,
+    autoArchiveIdleDays: idleDaysOrNull(daemon.autoArchiveIdleDays),
     enableTerminalAgentHooks: daemon.enableTerminalAgentHooks ?? false,
     appendSystemPrompt: daemon.appendSystemPrompt ?? "",
     terminalProfiles: daemon.terminalProfiles,
@@ -108,6 +114,7 @@ describe("DaemonConfigStore", () => {
       providers: {},
       metadataGeneration: { providers: [] },
       autoArchiveAfterMerge: false,
+      autoArchiveIdleDays: null,
       enableTerminalAgentHooks: false,
       appendSystemPrompt: "",
     });
@@ -130,6 +137,7 @@ describe("DaemonConfigStore", () => {
       providers: {},
       metadataGeneration: { providers: [] },
       autoArchiveAfterMerge: false,
+      autoArchiveIdleDays: null,
       enableTerminalAgentHooks: false,
       appendSystemPrompt: "",
     });
@@ -176,6 +184,7 @@ describe("DaemonConfigStore", () => {
       providers: {},
       metadataGeneration: { providers: [] },
       autoArchiveAfterMerge: false,
+      autoArchiveIdleDays: null,
       enableTerminalAgentHooks: false,
       appendSystemPrompt: "",
       agentProfiles: [
@@ -200,6 +209,7 @@ describe("DaemonConfigStore", () => {
       providers: {},
       metadataGeneration: { providers: [] },
       autoArchiveAfterMerge: false,
+      autoArchiveIdleDays: null,
       enableTerminalAgentHooks: false,
       appendSystemPrompt: "",
     });
@@ -226,6 +236,7 @@ describe("DaemonConfigStore", () => {
       providers: {},
       metadataGeneration: { providers: [] },
       autoArchiveAfterMerge: false,
+      autoArchiveIdleDays: null,
       enableTerminalAgentHooks: false,
       appendSystemPrompt: "",
     });
@@ -260,6 +271,7 @@ describe("DaemonConfigStore", () => {
         providers: {},
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -292,6 +304,7 @@ describe("DaemonConfigStore", () => {
         providers: {},
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -323,6 +336,7 @@ describe("DaemonConfigStore", () => {
         providers: {},
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -379,6 +393,7 @@ describe("DaemonConfigStore", () => {
         providers: {},
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -413,6 +428,7 @@ describe("DaemonConfigStore", () => {
       providers: { claude: { enabled: false } },
       metadataGeneration: { providers: [] },
       autoArchiveAfterMerge: false,
+      autoArchiveIdleDays: null,
       enableTerminalAgentHooks: false,
       appendSystemPrompt: "",
     });
@@ -481,6 +497,7 @@ describe("DaemonConfigStore", () => {
         },
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -529,6 +546,7 @@ describe("DaemonConfigStore", () => {
         providers: { gemini: {} },
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -591,6 +609,7 @@ describe("DaemonConfigStore", () => {
           ],
         },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -642,6 +661,7 @@ describe("DaemonConfigStore", () => {
         providers: {},
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -668,6 +688,7 @@ describe("DaemonConfigStore", () => {
         providers: {},
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -694,6 +715,7 @@ describe("DaemonConfigStore", () => {
         providers: {},
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         appendSystemPrompt: "",
       },
       undefined,
@@ -717,6 +739,7 @@ describe("DaemonConfigStore", () => {
         providers: {},
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -759,6 +782,7 @@ describe("DaemonConfigStore", () => {
         providers: {},
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -784,6 +808,7 @@ describe("DaemonConfigStore", () => {
         providers: {},
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -808,6 +833,7 @@ describe("DaemonConfigStore", () => {
         providers: {},
         metadataGeneration: { providers: [] },
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
       },
@@ -860,6 +886,7 @@ describe("DaemonConfigStore", () => {
         browserTools: { enabled: false },
         providers: {},
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
         metadataGeneration: { providers: [{ provider: "claude", model: "haiku" }] },
@@ -884,6 +911,7 @@ describe("DaemonConfigStore", () => {
         browserTools: { enabled: false },
         providers: {},
         autoArchiveAfterMerge: false,
+        autoArchiveIdleDays: null,
         enableTerminalAgentHooks: false,
         appendSystemPrompt: "",
         metadataGeneration: { providers: [] },
@@ -1191,5 +1219,46 @@ describe("DaemonConfigStore reload", () => {
       restartRequiredPaths: [],
       overrideControlledPaths: [],
     });
+  });
+
+  test("patch persists the idle auto-archive window and clears it with null", () => {
+    const paseoHome = mkdtempSync(path.join(tmpdir(), "paseo-daemon-config-store-"));
+    tempDirs.push(paseoHome);
+    const store = new DaemonConfigStore(paseoHome, {
+      relay: { enabled: false },
+      mcp: { injectIntoAgents: false },
+      browserTools: { enabled: false },
+      providers: {},
+      metadataGeneration: { providers: [] },
+      autoArchiveAfterMerge: false,
+      autoArchiveIdleDays: null,
+      enableTerminalAgentHooks: false,
+      appendSystemPrompt: "",
+    });
+
+    store.patch({ autoArchiveIdleDays: 2 });
+
+    expect(store.get().autoArchiveIdleDays).toBe(2);
+    expect(loadPersistedConfig(paseoHome).daemon?.autoArchiveIdleDays).toBe(2);
+
+    store.patch({ autoArchiveIdleDays: null });
+
+    expect(store.get().autoArchiveIdleDays).toBe(null);
+    expect(loadPersistedConfig(paseoHome).daemon?.autoArchiveIdleDays).toBe(null);
+  });
+
+  test("a reload applies a changed idle auto-archive window without a restart", () => {
+    const { paseoHome, store, persisted } = createReloadableStore();
+    writeConfig(paseoHome, {
+      ...persisted,
+      daemon: { ...persisted.daemon, autoArchiveIdleDays: 3 },
+    });
+
+    expect(store.reload()).toEqual({
+      appliedPaths: ["daemon.autoArchiveIdleDays"],
+      restartRequiredPaths: [],
+      overrideControlledPaths: [],
+    });
+    expect(store.get().autoArchiveIdleDays).toBe(3);
   });
 });

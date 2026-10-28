@@ -119,6 +119,12 @@ children.
 
 `create_agent_request` can opt an agent into `autoArchive`. In that mode the daemon archives the agent after the first terminal turn event (`turn_completed`, `turn_failed`, or `turn_canceled`). When the agent owns an isolated workspace, auto-archive archives that workspace too; the managed worktree is removed when its final workspace reference is gone.
 
+`daemon.autoArchiveIdleDays` archives agent sessions that have gone that many days without a user
+message. The daemon sweeps hourly, skips running and initializing agents, agents with an active
+turn, and agents waiting on a permission, and leaves subagents to their parent's cascade. Off
+unless set (`paseo daemon config set daemon.autoArchiveIdleDays 2`). Archiving a session does not
+archive its workspace.
+
 Archiving runs through `AgentManager.archiveAgent` (`packages/server/src/server/agent/agent-manager.ts`):
 
 1. Snapshot the current session into the registry

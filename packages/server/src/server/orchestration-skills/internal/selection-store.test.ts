@@ -21,6 +21,7 @@ async function createStore() {
     providers: {},
     metadataGeneration: { providers: [] },
     autoArchiveAfterMerge: false,
+    autoArchiveIdleDays: null,
     enableTerminalAgentHooks: false,
     appendSystemPrompt: "",
   });

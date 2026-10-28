@@ -98,6 +98,19 @@
         "autoArchiveAfterMerge": {
           "type": "boolean"
         },
+        "autoArchiveIdleDays": {
+          "description": "Archive an agent session once it has gone this many days without a user message. Omit or null to never auto-archive idle sessions.",
+          "anyOf": [
+            {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "enableTerminalAgentHooks": {
           "type": "boolean"
         },

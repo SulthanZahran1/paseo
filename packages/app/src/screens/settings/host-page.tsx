@@ -316,6 +316,7 @@ export function HostWorkspacesPage({ serverId }: { serverId: string }) {
       {isConnected ? (
         <SettingsSection title={t("settings.hostSections.workspaces")}>
           <AutoArchiveMergedWorkspacesCard serverId={serverId} />
+          <AutoArchiveIdleSessionsCard serverId={serverId} />
         </SettingsSection>
       ) : (
         <View style={[settingsStyles.card, styles.emptyCard]}>
@@ -892,6 +893,48 @@ function InjectPaseoToolsCard({ serverId }: { serverId: string }) {
           value={config?.mcp.injectIntoAgents !== false}
           onValueChange={handleValueChange}
           accessibilityLabel={t("settings.host.orchestration.enableTools.accessibilityLabel")}
+        />
+      </View>
+    </View>
+  );
+}
+
+function AutoArchiveIdleSessionsCard({ serverId }: { serverId: string }) {
+  const isConnected = useHostRuntimeIsConnected(serverId);
+  const { config, patchConfig } = useDaemonConfig(serverId);
+  const idleDays = config?.autoArchiveIdleDays ?? null;
+
+  const handleValueChange = useCallback(
+    (next: boolean) => {
+      void patchConfig({ autoArchiveIdleDays: next ? (idleDays ?? 2) : null }).catch((error) => {
+        console.error("[HostPage] Failed to update idle session archiving", error);
+        Alert.alert(
+          "Unable to update sessions",
+          error instanceof Error ? error.message : String(error),
+        );
+      });
+    },
+    [idleDays, patchConfig],
+  );
+
+  if (!isConnected) return null;
+
+  return (
+    <View style={settingsStyles.card} testID="host-page-auto-archive-idle-sessions-card">
+      <View style={settingsStyles.row}>
+        <View style={settingsStyles.rowContent}>
+          <Text style={settingsStyles.rowTitle}>Archive idle sessions</Text>
+          <Text style={settingsStyles.rowHint}>
+            Archive a session once it has gone {idleDays ?? 2}{" "}
+            {(idleDays ?? 2) === 1 ? "day" : "days"} without a message. Archived sessions keep their
+            history and can be unarchived from History.
+          </Text>
+        </View>
+        <Switch
+          value={idleDays !== null}
+          onValueChange={handleValueChange}
+          accessibilityLabel="Archive idle sessions"
+          testID="host-page-auto-archive-idle-sessions-switch"
         />
       </View>
     </View>

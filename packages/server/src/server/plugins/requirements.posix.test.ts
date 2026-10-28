@@ -38,6 +38,7 @@ async function host(version = "0.8.0", pluginPath?: string) {
     providers: {},
     metadataGeneration: { providers: [] },
     autoArchiveAfterMerge: false,
+    autoArchiveIdleDays: null,
     enableTerminalAgentHooks: false,
     appendSystemPrompt: "",
     pluginsEnabled: true,
